@@ -29,15 +29,11 @@ name = "boston"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
-    { name = "logfire", extra = ["httpx"] },
-    { name = "pydantic-ai" },
+    { name = "pydantic-ai", extra = ["logfire"] },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "logfire", extras = ["httpx"], specifier = ">=2.6.2" },
-    { name = "pydantic-ai", extras = ["logfire"], specifier = ">=0.0.9" },
-]
+requires-dist = [{ name = "pydantic-ai", extras = ["logfire"], specifier = ">=0.0.10" }]
 
 [[package]]
 name = "cachetools"
@@ -309,11 +305,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/9f/1b/86975d00d1ef022505cd1f9d0e9eeade6023b8d48fde8376fcefc0f5515a/logfire-2.6.2-py3-none-any.whl", hash = "sha256:67ff148db4760ef2e79a903364302de913f3946ccdc6544d8396330320f64803", size = 172653 },
 ]
 
-[package.optional-dependencies]
-httpx = [
-    { name = "opentelemetry-instrumentation-httpx" },
-]
-
 [[package]]
 name = "logfire-api"
 version = "2.6.2"
@@ -422,22 +413,6 @@ wheels = [
 ]
 
 [[package]]
-name = "opentelemetry-instrumentation-httpx"
-version = "0.49b2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "opentelemetry-api" },
-    { name = "opentelemetry-instrumentation" },
-    { name = "opentelemetry-semantic-conventions" },
-    { name = "opentelemetry-util-http" },
-    { name = "wrapt" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/b2/76/ecd15d1ebd587b638d032ec83b0a8eb08467bec4e679a2421c3a9cc13ea0/opentelemetry_instrumentation_httpx-0.49b2.tar.gz", hash = "sha256:4330f56b0ad382843a1e8fe6179d20c2d2be3ee78e60b9f01ee892b1600de44f", size = 17762 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/fe/ea1e501b8415cb938035b8d707dcd952563bf0d99373728895233be0c15c/opentelemetry_instrumentation_httpx-0.49b2-py3-none-any.whl", hash = "sha256:08111e6c8d11495dee7ef2243bc2e9acc09c16be8c6f4dd32f939f2b08f30af5", size = 14093 },
-]
-
-[[package]]
 name = "opentelemetry-proto"
 version = "1.28.2"
 source = { registry = "https://pypi.org/simple" }
@@ -474,15 +449,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/7d/0a/e3b93f94aa3223c6fd8e743502a1fefd4fb3a753d8f501ce2a418f7c0bd4/opentelemetry_semantic_conventions-0.49b2.tar.gz", hash = "sha256:44e32ce6a5bb8d7c0c617f84b9dc1c8deda1045a07dc16a688cc7cbeab679997", size = 95213 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b1/be/6661c8f76708bb3ba38c90be8fa8d7ffe17ccbc5cbbc229334f5535f6448/opentelemetry_semantic_conventions-0.49b2-py3-none-any.whl", hash = "sha256:51e7e1d0daa958782b6c2a8ed05e5f0e7dd0716fc327ac058777b8659649ee54", size = 159199 },
-]
-
-[[package]]
-name = "opentelemetry-util-http"
-version = "0.49b2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/96/28/ac5b1a0fd210ecb6c86c5e04256ba09c8308eb41e116097b9e2714d4b8dd/opentelemetry_util_http-0.49b2.tar.gz", hash = "sha256:5958c7009f79146bbe98b0fdb23d9d7bf1ea9cd154a1c199029b1a89e0557199", size = 7861 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/19/22/9128f10d1c2868ee42df7e10937d00f154a69bee87c416ca9b20a6af6c54/opentelemetry_util_http-0.49b2-py3-none-any.whl", hash = "sha256:e325d6511c6bee7b43170eb0c93261a210ec57e20ab1d7a99838515ef6d2bf58", size = 6941 },
 ]
 
 [[package]]
@@ -545,19 +511,24 @@ wheels = [
 
 [[package]]
 name = "pydantic-ai"
-version = "0.0.9"
+version = "0.0.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic-ai-slim", extra = ["groq", "openai", "vertexai"] },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3b/8f/4095c0a425022ed57d0eb66ebfc0ee9989d112f2275db3b2b2bb42b0e5dd/pydantic_ai-0.0.9.tar.gz", hash = "sha256:d30ebfee83f18f81052e994db64f1a42eb05827a1895d04489fecd2b27d60037", size = 38994 }
+sdist = { url = "https://files.pythonhosted.org/packages/62/16/541fbb4e2b64993dab460ca1035be7c26dd28f5d265c9f2e98860bf73a75/pydantic_ai-0.0.10.tar.gz", hash = "sha256:83be1dc10ae951daad5e181dfa5d09fc9305fb32f5ae76668fac0324bab567b5", size = 39274 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/12/37/a289689f6089eba68ea3b063801b96d881bf8bb19f6edd1fd4aa30b197fb/pydantic_ai-0.0.9-py3-none-any.whl", hash = "sha256:af61d7ba2f3ef2bf6353f921fd50b73b04ec9d259b95eb20d8c4e747f45e1c16", size = 8971 },
+    { url = "https://files.pythonhosted.org/packages/dc/c0/a55afdb49eb5a198f5c098adea8c049ff21a61f858152ff1484a8edd0abb/pydantic_ai-0.0.10-py3-none-any.whl", hash = "sha256:950026a2ab134eea50a6489988d4095cf73204dee292e0795008bb87a375f87f", size = 8997 },
+]
+
+[package.optional-dependencies]
+logfire = [
+    { name = "logfire" },
 ]
 
 [[package]]
 name = "pydantic-ai-slim"
-version = "0.0.9"
+version = "0.0.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "eval-type-backport" },
@@ -566,9 +537,9 @@ dependencies = [
     { name = "logfire-api" },
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0a/7c/030e7d1b6912f34f940fc5a6f9e8ff1a9ab5c0228a34fd79e4ff2215355b/pydantic_ai_slim-0.0.9.tar.gz", hash = "sha256:7fceecb5afba92445f95094a9aeabb8d727bf29b88a98a1b93329468b5b3e0be", size = 42545 }
+sdist = { url = "https://files.pythonhosted.org/packages/d9/0c/72332c27c169967ed8466d67c1d3e1114e34f6b195e21f38ba869e801d17/pydantic_ai_slim-0.0.10.tar.gz", hash = "sha256:a6aec5d7d9d34eaef8dd3e96a9fa16c1108b1de5f1a8f7ed2fa680e411242062", size = 42887 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e8/99/aa4b3a3b08aa0427cf2dc619c451f0e4f4a14413cbf29934df1e14332f48/pydantic_ai_slim-0.0.9-py3-none-any.whl", hash = "sha256:7dae4cd95f93e5c4cd05e2db4ae8b8d473dae67d1b5eab29531f18d794bc1580", size = 57342 },
+    { url = "https://files.pythonhosted.org/packages/0b/af/75f13f29343780a0c317971e2559055cf422f4b1c1a75441376d15529891/pydantic_ai_slim-0.0.10-py3-none-any.whl", hash = "sha256:177b97014cea816f74d5fff5de66dba869dca8a741bd2ae25e747c654d192bc8", size = 57709 },
 ]
 
 [package.optional-dependencies]
