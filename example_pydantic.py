@@ -8,5 +8,5 @@ class User(BaseModel):
     dob: date
 
 
-user = User(id='1', name='John Doe', dob=[1, 2])
+user = User(id='1', name='John Doe', dob='1987-01-28')
 print(user)

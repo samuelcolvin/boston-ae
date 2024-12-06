@@ -1,15 +1,3 @@
-"""Example of PydanticAI with multiple tools which the LLM needs to call in turn to answer a question.
-
-In this case the idea is a "weather" agent — the user can ask for the weather in multiple cities,
-the agent will use the `get_lat_lng` tool to get the latitude and longitude of the locations, then use
-the `get_weather` tool to get the weather.
-
-Run with:
-
-    uv run -m pydantic_ai_examples.weather
-"""
-
-from __future__ import annotations as _annotations
 
 import asyncio
 import os
@@ -17,13 +5,11 @@ from dataclasses import dataclass
 from typing import Any
 
 import logfire
-from devtools import debug
 from httpx import AsyncClient
 
 from pydantic_ai import Agent, ModelRetry, RunContext
 
-# 'if-token-present' means nothing will be sent (and the example will work) if you don't have logfire configured
-logfire.configure(send_to_logfire='if-token-present')
+logfire.configure(scrubbing=False)
 
 
 @dataclass
@@ -142,7 +128,6 @@ async def main():
         result = await weather_agent.run(
             'What is the weather like in London and in Wiltshire?', deps=deps
         )
-        debug(result)
         print('Response:', result.data)
 
 

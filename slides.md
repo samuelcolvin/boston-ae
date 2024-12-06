@@ -1,5 +1,3 @@
-from pydantic_ai.models import Model
-
 # Slides
 
 ## whoami
@@ -229,7 +227,6 @@ Logfire to the rescue, just add a few lines to our code:
 ```py
 import logfire
 logfire.configure()
-logfire.instrument_httpx()
 ```
 
 
