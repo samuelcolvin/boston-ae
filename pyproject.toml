@@ -8,3 +8,6 @@ dependencies = [
     "devtools>=0.12.2",
     "pydantic-ai[logfire]>=0.0.10",
 ]
+
+[tool.logfire]
+ignore_no_config = true

@@ -2,11 +2,13 @@ from datetime import date
 from pydantic_ai import Agent
 from pydantic import BaseModel
 
+
 class User(BaseModel):
     """Definition of a user"""
     id: int
     name: str
     dob: date
+
 
 agent = Agent(
     'openai:gpt-4o',

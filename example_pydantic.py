@@ -12,4 +12,4 @@ class User(BaseModel):
 user = User(id='123', name='Samuel Colvin', dob='1987-01-28')
 debug(user)
 
-debug(User.model_json_schema())
+# debug(User.model_json_schema())

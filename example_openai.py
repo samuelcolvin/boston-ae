@@ -2,11 +2,13 @@ from datetime import date
 from pydantic import BaseModel
 from openai import OpenAI
 
+
 class User(BaseModel):
     """Definition of a user"""
     id: int
     name: str
     dob: date
+
 
 response = OpenAI().chat.completions.create(
     model='gpt-4o',
