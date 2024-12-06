@@ -4,19 +4,19 @@ import os
 from dataclasses import dataclass
 from typing import Any
 
-import logfire
 from httpx import AsyncClient
 
 from pydantic_ai import Agent, ModelRetry, RunContext
 
-logfire.configure(scrubbing=False)
+import logfire
+logfire.configure()
 
 
 @dataclass
 class Deps:
     client: AsyncClient
-    weather_api_key: str | None
-    geo_api_key: str | None
+    weather_api_key: str
+    geo_api_key: str
 
 
 weather_agent = Agent(
@@ -37,19 +37,13 @@ async def get_lat_lng(
         ctx: The context.
         location_description: A description of a location.
     """
-    if ctx.deps.geo_api_key is None:
-        # if no API key is provided, return a dummy response (London)
-        return {'lat': 51.1, 'lng': -0.1}
-
     params = {
         'q': location_description,
         'api_key': ctx.deps.geo_api_key,
     }
-    with logfire.span('calling geocode API', params=params) as span:
-        r = await ctx.deps.client.get('https://geocode.maps.co/search', params=params)
-        r.raise_for_status()
-        data = r.json()
-        span.set_attribute('response', data)
+    r = await ctx.deps.client.get('https://geocode.maps.co/search', params=params)
+    r.raise_for_status()
+    data = r.json()
 
     if data:
         return {'lat': data[0]['lat'], 'lng': data[0]['lon']}
@@ -66,22 +60,16 @@ async def get_weather(ctx: RunContext[Deps], lat: float, lng: float) -> dict[str
         lat: Latitude of the location.
         lng: Longitude of the location.
     """
-    if ctx.deps.weather_api_key is None:
-        # if no API key is provided, return a dummy response
-        return {'temperature': '21 °C', 'description': 'Sunny'}
-
     params = {
         'apikey': ctx.deps.weather_api_key,
         'location': f'{lat},{lng}',
         'units': 'metric',
     }
-    with logfire.span('calling weather API', params=params) as span:
-        r = await ctx.deps.client.get(
-            'https://api.tomorrow.io/v4/weather/realtime', params=params
-        )
-        r.raise_for_status()
-        data = r.json()
-        span.set_attribute('response', data)
+    r = await ctx.deps.client.get(
+        'https://api.tomorrow.io/v4/weather/realtime', params=params
+    )
+    r.raise_for_status()
+    data = r.json()
 
     values = data['data']['values']
     # https://docs.tomorrow.io/reference/data-layers-weather-codes
@@ -118,10 +106,8 @@ async def get_weather(ctx: RunContext[Deps], lat: float, lng: float) -> dict[str
 
 async def main():
     async with AsyncClient() as client:
-        # create a free API key at https://www.tomorrow.io/weather-api/
-        weather_api_key = os.getenv('WEATHER_API_KEY')
-        # create a free API key at https://geocode.maps.co/
-        geo_api_key = os.getenv('GEO_API_KEY')
+        weather_api_key = os.environ['WEATHER_API_KEY']
+        geo_api_key = os.environ['GEO_API_KEY']
         deps = Deps(
             client=client, weather_api_key=weather_api_key, geo_api_key=geo_api_key
         )

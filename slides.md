@@ -8,6 +8,7 @@ Pydantic:
 * Python library for data validation
 * Created Pydantic in 2017 — long before Gen AI
 * Became a company, backed by Sequoia in 2023 — released Logfire earlier this year
+* Released Pydantic V2 last year, core rewritten in Rust
 * downloaded >300M per month
 * Used by all of FAANG, OpenAI, Anthropic etc.
 
@@ -35,7 +36,7 @@ Ubiquitous   •   Boring   •   Beloved
 
 * Who's writing code (of any kind)?
 
-* Who has any kind of Generative AI in production? Predictive AI?
+* Who has any kind of Generative AI in production?
 
 * Who's used Pydantic?
 
@@ -77,6 +78,18 @@ user = User(id='123', name='Samuel Colvin', dob='1987-01-28')
 
 user = User.model_validate_json('{"id: 123, "name": "Samuel Colvin", "dob": "1987-01-28"}')
 #> User(id=123, name='Samuel Colvin', dob=date(1987, 1, 28))
+
+print(User.model_json_schema())
+s = {
+    'properties': {
+        'id': {'title': 'Id', 'type': 'integer'},
+        'name': {'title': 'Name', 'type': 'string'},
+        'dob': {'format': 'date', 'title': 'Dob', 'type': 'string'},
+    },
+    'required': ['id', 'name', 'dob'],
+    'title': 'User',
+    'type': 'object',
+}
 ```
 
 
@@ -129,11 +142,14 @@ print(user)
 
 
 
+
+
+
 ---
 
 ## PydanticAI
 
-That same example with PydanticAI — AI for production.
+That same example with PydanticAI — Agent Framework for production.
 
 ```py
 from datetime import date
@@ -154,6 +170,11 @@ agent = Agent(
 result = agent.run_sync('The user with ID 123 is called Samuel, born on Jan 28th 87')
 print(result.data)
 ```
+
+
+
+
+
 
 
 
@@ -234,6 +255,12 @@ logfire.configure()
 
 
 
+
+
+
+
+
+
 ---
 
 ## Next steps: Model Context Protocol
@@ -271,31 +298,3 @@ Some useful links:
 * Logfire: pydantic.dev/logfire
 
 * PydanticAI: ai.pydantic.dev
-
-```
-  ██████████████  ██████████  ██      ██████████████
-  ██          ██    ██  ████          ██          ██
-  ██  ██████  ██  ████      ██  ██    ██  ██████  ██
-  ██  ██████  ██      ██    ████  ██  ██  ██████  ██
-  ██  ██████  ██    ██    ██████      ██  ██████  ██
-  ██          ██  ██  ██    ██        ██          ██
-  ██████████████  ██  ██  ██  ██  ██  ██████████████
-                              ██████
-  ██  ██      ████      ████  ██  ██    ██    ██  ██
-  ██    ██  ██  ██          ██  ████  ████  ██  ████
-  ████    ██  ████  ████  ██    ██  ██    ██████  ██
-            ██        ██  ██        ██      ██
-  ██  ██████████████      ██    ██████████        ██
-                ██  ██    ██    ████  ████      ████
-  ████        ██  ██      ████  ████        ████  ██
-      ████████  ████    ████      ██  ████████
-  ██████████  ████              ████████████    ██
-                  ██████          ██      ██      ██
-  ██████████████  ██    ██  ██    ██  ██  ██      ██
-  ██          ██    ████      ██████      ██    ████
-  ██  ██████  ██        ████    ████████████      ██
-  ██  ██████  ██      ██  ██  ████  ██    ██  ████
-  ██  ██████  ██  ██      ██    ██      ██████  ████
-  ██          ██    ████████    ████    ████
-  ██████████████  ██████  ██████  ██████    ██    ██
-```

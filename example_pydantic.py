@@ -1,6 +1,7 @@
 from datetime import date
 from pydantic import BaseModel
 
+from devtools import debug
 
 class User(BaseModel):
     id: int
@@ -8,5 +9,7 @@ class User(BaseModel):
     dob: date
 
 
-user = User(id='1', name='John Doe', dob='1987-01-28')
-print(user)
+user = User(id='123', name='Samuel Colvin', dob='1987-01-28')
+debug(user)
+
+debug(User.model_json_schema())
