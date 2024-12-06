@@ -28,4 +28,4 @@ response = OpenAI().chat.completions.create(
     ]
 )
 user = User.model_validate_json(response.choices[0].message.tool_calls[0].function.arguments)
-print(user)
+print(repr(user))
