@@ -31,17 +31,6 @@ Ubiquitous   •   Boring   •   Beloved
 
 
 
----
-
-
-## Who's here?
-
-* Who's writing code (of any kind)?
-
-* Who has any kind of Generative AI in production?
-
-* Who's used Pydantic?
-
 
 
 
@@ -93,6 +82,10 @@ s = {
     'type': 'object',
 }
 ```
+
+
+
+
 
 
 
@@ -263,6 +256,73 @@ logfire.configure()
 
 
 
+
+
+
+
+
+---
+
+### Next steps: Agent handoff
+
+Making it easier to build multi-agent systems.
+
+```py
+from dataclasses import dataclass
+from datetime import datetime
+
+from httpx import AsyncClient
+from pydantic import BaseModel
+
+from pydantic_ai import Agent
+from pydantic_ai.tools import AgentTool
+
+@dataclass
+class Deps:
+    http_client: AsyncClient
+
+class Flight(BaseModel):
+    departure_time: datetime
+    arrival_time: datetime
+    destination: str
+
+search_agent = Agent(model='openai:gpt-4o', deps_type=Deps, result_type=list[Flight])
+
+
+class DesiredFlight(BaseModel):
+    ideal_flight_time: datetime
+    destination: str
+
+
+control_agent = Agent(
+    model='openai:gpt-4o',
+    tools=[
+        AgentTool(
+            name='find_flights',
+            agent=Agent(model='openai:gpt-4o', deps_type=Deps, result_type=list[Flight]),
+            input_type=DesiredFlight,
+        ),
+        AgentTool(
+            name='select_best_flight',
+            agent=Agent(model='openai:gpt-4o', deps_type=Deps, result_type=Flight),
+            input_type=DesiredFlight,
+        )
+    ],
+    deps_type=Deps
+)
+
+result = control_agent.run_sync('Find me a flight to Alaska on the 20th of December')
+```
+
+
+
+
+
+
+
+
+
+
 ---
 
 ## Next steps: Model Context Protocol
@@ -283,6 +343,23 @@ agent = Agent(
 )
 ...
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
