@@ -1,3 +1,1 @@
-# Slides for AI Global Summit 2024
-
-https://www.algopreneurship.ai in Boston in December 2024.
+# Moved to [github.com/pydantic/talks -> 2024-12-boston-ae](https://github.com/pydantic/talks/tree/main/2024-12-boston-ae)
